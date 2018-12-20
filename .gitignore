@@ -1,6 +1,6 @@
 # Project specific settings
 
-build/
+dist/
 .nyc_coverage/
 coverage/
 
