@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-  - description: User Management and Identity Provider
+  - description: SwaggerHub API Auto Mocking
     url: /v1
 info:
   description: This is the API for the user management and identity provider
