@@ -14,8 +14,4 @@
    limitations under the License.
 */
 
-import { startServer } from './Server'
-
-const port: number = Number(process.env.PORT) || 3000
-
-startServer(port)
+export * from './Authenticate.controller'

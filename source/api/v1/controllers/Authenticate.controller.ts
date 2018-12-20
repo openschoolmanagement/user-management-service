@@ -14,8 +14,12 @@
    limitations under the License.
 */
 
-import { startServer } from './Server'
+import { Router, Request, Response } from 'express'
 
-const port: number = Number(process.env.PORT) || 3000
+const router: Router = Router()
 
-startServer(port)
+router.post('/authenticate', (req: Request, res: Response) => {
+    res.send('Hello, World!')
+});
+
+export const AuthenticateController: Router = router

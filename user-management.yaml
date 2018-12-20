@@ -1,0 +1,61 @@
+openapi: 3.0.0
+servers:
+  - description: User Management and Identity Provider
+    url: /v1
+info:
+  description: This is the API for the user management and identity provider
+  version: "1"
+  title: User Management Service
+  contact:
+    name: Thomas Bonk
+    email: thomas@meandmymac.de
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: commands
+    description: Commands to change data
+  - name: users
+    description: Operations available to regular users
+
+paths:
+  /authenticate:
+    post:
+      tags:
+        - users
+      summary: Login a user
+      operationId: authenticate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+        description: user credentials and redirect URL
+      responses:
+        '303':
+          description: user logged in
+        '401':
+          description: email or password do not match
+        '400':
+          description: malformed request body
+
+components:
+  schemas:
+    Credentials:
+      type: object
+      required:
+        - email
+        - password
+        - redirectUrl
+      properties:
+        email:
+          type: string
+          format: email
+          example: johndoe@mail.com
+        password:
+          type: string
+          example: password
+        redirectUrl:
+          type: string
+          format: uri
+          example: https://user-management.service.com

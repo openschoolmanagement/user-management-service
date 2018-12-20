@@ -14,8 +14,23 @@
    limitations under the License.
 */
 
-import { startServer } from './Server'
+import * as http from 'http'
+import express from 'express'
+import { APIV1 } from './api/v1'
 
-const port: number = Number(process.env.PORT) || 3000
+/**
+ * Start the server on the given port with the given routes
+ * 
+ * @param port Port where the gateway is listening on
+ * @param routes Routes that are dispatched by the gateway
+ * @returns the server object
+ */
+export function startServer(port: number): http.Server {
+    let app: express.Application = express()
+    
+    app.use('/', APIV1)
 
-startServer(port)
+    return app.listen(port, () => {
+        console.log(`user-management-service is listening on port ${port}`)
+    })
+}
