@@ -13,6 +13,8 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
+  - name: admins
+    description: Operations available to admins
   - name: commands
     description: Commands to change data
   - name: users
@@ -38,6 +40,52 @@ paths:
           description: email or password do not match
         '400':
           description: malformed request body
+
+  /users:
+    get:
+      tags:
+      - admins
+      summary: Get the users list
+      operationId: getUsers
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+          description: User list successfully read
+        '401':
+          description: Unauthorized
+
+  /users/{userId}:
+    get:
+      tags:
+      - admins
+      summary: Get the given user
+      operationId: getUser
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Technical ID of the user
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: User successfully read
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
 
   /createuser:
     post:
@@ -379,6 +427,32 @@ components:
       bearerFormat: JWT
 
   schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: e5c9e994-4e7e-4edb-8599-e6584029cf69
+        givenname:
+          type: string
+          example: John
+        lastname:
+          type: string
+          example: Doe
+        email:
+          type: string
+          format: email
+          example: johndoe@mail.com
+        active:
+          type: boolean
+          example: true
+    
+    UserList:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
+    
     CommandResult:
       type: object
       properties:
