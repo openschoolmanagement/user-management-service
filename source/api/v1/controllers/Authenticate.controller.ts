@@ -15,9 +15,9 @@
 */
 
 import { Router, Request, Response, NextFunction } from 'express'
-import IController from '../../common/IController'
+import ApiController from '../../common/ApiController'
 
-export class AuthenticateController implements IController {
+export class AuthenticateController implements ApiController {
     router: Router = Router()
 
     constructor() {
