@@ -22,7 +22,7 @@ paths:
   /authenticate:
     post:
       tags:
-        - users
+      - users
       summary: Login a user
       operationId: authenticate
       requestBody:
@@ -30,23 +30,442 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Credentials'
-        description: user credentials and redirect URL
+        description: user credentials
       responses:
-        '303':
+        '200':
           description: user logged in
         '401':
           description: email or password do not match
         '400':
           description: malformed request body
 
+  /createuser:
+    post:
+      tags:
+      - commands
+      summary: Create a new user
+      operationId: createUser
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+        description: Data for the new user
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: User creation request accepted
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Malformed request body
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Unauthorized
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: User with given ID already exists
+
+  /changegivenname/{userId}:
+    post:
+      tags:
+      - commands
+      summary: Change the given name of a user
+      operationId: changeGivenName
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Technical ID of the user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeGivenName'
+        description: Data for the new given name of the user
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: change given request accepted
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Malformed request body
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Unauthorized
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: User not found
+
+  /changelastname/{userId}:
+    post:
+      tags:
+      - commands
+      summary: Change the last name of a user
+      operationId: changeLastName
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Technical ID of the user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeLastName'
+        description: Data for the new last name of the user
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Change last name request accepted
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Malformed request body
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Unauthorized
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: User not found
+
+  /changeemail/{userId}:
+    post:
+      tags:
+      - commands
+      summary: Change the email address of a user
+      operationId: changeEmail
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Technical ID of the user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeEmail'
+        description: Data for the new email of the user
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Email change request accepted
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Malformed request body
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Unauthorized
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: User not found
+
+  /validateemail:
+    post:
+      tags:
+      - commands
+      summary: Validate an email change with the given validation token
+      operationId: validateEmail
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateEmail'
+        description: Data with the validation token
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Validation request accepted
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Malformed request body
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Unauthorized
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Validation token not found
+
+  /activateuser/{userId}:
+    post:
+      tags:
+      - commands
+      summary: Activate the user with the given Id such that he can login
+      operationId: activateUser
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Technical ID of the user
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Activate user request accepted
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Unauthorized
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: User not found
+
+  /deactivateuser/{userId}:
+    post:
+      tags:
+      - commands
+      summary: Deactivate the user with the given Id such that he can't login anymore
+      operationId: deactivateUser
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Technical ID of the user
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Deactivate user request accepted
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Unauthorized
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: User not found
+
+  /deleteuser/{userId}:
+    post:
+      tags:
+      - commands
+      summary: Delete a user
+      operationId: deleteUser
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Technical ID of the user
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Delete user request accepted
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Unauthorized
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: User not found
+
 components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
+    CommandResult:
+      type: object
+      properties:
+        objectId:
+          type: string
+          format: uuid
+          example: 60962489-6c7a-4dec-a117-3738d7e5da9c
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: E1337
+            locale:
+              type: string
+              format: locale
+              example: en
+            message:
+              type: string
+              example: Error while creating instance
+
+    CreateUser:
+      type: object
+      required:
+      - userId
+      - email
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: e5c9e994-4e7e-4edb-8599-e6584029cf69
+        givenname:
+          type: string
+          example: John
+        lastname:
+          type: string
+          example: Doe
+        email:
+          type: string
+          format: email
+          example: johndoe@mail.com
+        password:
+          type: string
+          example: password
+
+    ChangeGivenName:
+      type: object
+      required:
+      - givenname
+      properties:
+        givenname:
+          type: string
+          example: John
+
+    ChangeLastName:
+      type: object
+      required:
+      - lastname
+      properties:
+        lastname:
+          type: string
+          example: Doe
+
+    ChangeEmail:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+          format: email
+          example: johndoe@mail.com
+
+    ValidateEmail:
+      required:
+      - token
+      properties:
+        token:
+          type: string
+          format: uuid
+          example: 81ae5969-7250-45f6-8cee-581f4eed3e69
+
     Credentials:
       type: object
       required:
         - email
         - password
-        - redirectUrl
       properties:
         email:
           type: string
@@ -55,7 +474,3 @@ components:
         password:
           type: string
           example: password
-        redirectUrl:
-          type: string
-          format: uri
-          example: https://user-management.service.com
