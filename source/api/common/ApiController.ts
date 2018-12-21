@@ -14,23 +14,9 @@
    limitations under the License.
 */
 
-import * as http from 'http'
-import express from 'express'
-import { APIV1 } from './api/v1'
+import * as express from 'express'
 
-/**
- * Start the server on the given port with the given routes
- * 
- * @param port Port where the gateway is listening on
- * @param routes Routes that are dispatched by the gateway
- * @returns the server object
- */
-export function startServer(port: number): http.Server {
-    let app: express.Application = express()
-    
-    app.use('/', APIV1.router)
 
-    return app.listen(port, () => {
-        console.log(`user-management-service is listening on port ${port}`)
-    })
+export default interface ApiController {
+    router: express.Router
 }

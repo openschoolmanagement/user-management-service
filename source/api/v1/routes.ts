@@ -14,11 +14,19 @@
    limitations under the License.
 */
 
-import { Router, Request, Response } from 'express'
-import { AuthenticateController } from './controllers'
+import { Router } from 'express'
+import { authenticateController } from './controllers'
 
-const router: Router = Router()
+export class ApiV1Router {
+    public router = Router()
 
-router.use('/v1', [AuthenticateController])
+    constructor() {
+        this.routes()
+    }
 
-export const APIV1 = router
+    private routes() {
+        this.router.use('/v1', [authenticateController.router])
+    }
+}
+
+export const APIV1 = new ApiV1Router()

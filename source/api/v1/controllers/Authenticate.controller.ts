@@ -14,12 +14,23 @@
    limitations under the License.
 */
 
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response, NextFunction } from 'express'
+import IController from '../../common/IController'
 
-const router: Router = Router()
+export class AuthenticateController implements IController {
+    router: Router = Router()
 
-router.post('/authenticate', (req: Request, res: Response) => {
-    res.send('Hello, World!')
-});
+    constructor() {
+        this.addRoutes()
+    }
 
-export const AuthenticateController: Router = router
+    private addRoutes() {
+        this.router.post('/authenticate', this.authenticate.bind(this))
+    }
+
+    public authenticate(req: Request, res: Response, next: NextFunction) {
+        res.send('Hello, World!')
+    }
+}
+
+export const authenticateController = new AuthenticateController()
