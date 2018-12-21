@@ -223,6 +223,102 @@ paths:
                 $ref: '#/components/schemas/CommandResult'
           description: User not found
 
+  /changepassword/{userId}:
+    post:
+      tags:
+      - commands
+      summary: Change the password of a user
+      operationId: changePassword
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Technical ID of the user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+        description: Data for the new password of the user
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Password change request accepted
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Malformed request body
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Unauthorized
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: User not found
+
+  /updatepassword/{userId}:
+    post:
+      tags:
+      - users
+      summary: Update the password of a user. The old and the new password must be given. The old password must match the current password.
+      operationId: updatePassword
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Technical ID of the user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePassword'
+        description: Data for the password update of the user
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Password update request accepted
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Malformed request body
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: Unauthorized
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+          description: User not found
+
   /changeemail/{userId}:
     post:
       tags:
@@ -515,6 +611,28 @@ components:
         lastname:
           type: string
           example: Doe
+
+    ChangePassword:
+      type: object
+      required:
+      - password
+      properties:
+        password:
+          type: string
+          example: password
+
+    UpdatePassword:
+      type: object
+      required:
+      - oldPassword
+      - newPassword
+      properties:
+        oldPassword:
+          type: string
+          example: password
+        newPassword:
+          type: string
+          example: password
 
     ChangeEmail:
       type: object
