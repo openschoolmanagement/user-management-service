@@ -15,7 +15,7 @@
 */
 
 import { Router } from 'express'
-import { authenticateController } from './controllers'
+import { authenticateController, userManagementCommandsController } from './controllers'
 
 /**
  * This class exposes the router for the version 1 API of the
@@ -32,7 +32,10 @@ export class ApiV1Router {
     }
 
     private routes() {
-        this.router.use('/v1', [authenticateController.router()])
+        this.router.use('/v1', [
+            authenticateController.router(),
+            userManagementCommandsController.router()
+        ])
     }
 }
 

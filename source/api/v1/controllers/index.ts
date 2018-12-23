@@ -15,3 +15,4 @@
 */
 
 export * from './Authenticate.controller'
+export * from './UserManagementCommands.controller'
