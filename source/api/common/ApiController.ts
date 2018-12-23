@@ -15,8 +15,17 @@
 */
 
 import * as express from 'express'
+import * as core from "express-serve-static-core";
 
-
+/**
+ * This interface must be implementent by all API controllers
+ */
 export default interface ApiController {
-    router: express.Router
+    /**
+     * Get the router with all routes that this controller provides.
+     *
+     * @returns {express.Router} the router with all routes
+     * @memberof ApiController
+     */
+    router(): core.Router
 }

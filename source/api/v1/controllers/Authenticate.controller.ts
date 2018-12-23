@@ -15,19 +15,48 @@
 */
 
 import { Router, Request, Response, NextFunction } from 'express'
+import * as core from "express-serve-static-core";
 import ApiController from '../../common/ApiController'
 
+/**
+ * This controller handles the authentication requests.
+ *
+ * @export
+ * @class AuthenticateController
+ * @implements {ApiController}
+ */
 export class AuthenticateController implements ApiController {
-    router: Router = Router()
+    private _router: Router | undefined = undefined
 
     constructor() {
-        this.addRoutes()
     }
 
-    private addRoutes() {
-        this.router.post('/authenticate', this.authenticate.bind(this))
+    /**
+     * Return the router with the configuraed routes.
+     *
+     * @returns {core.Router} the configured router
+     * @memberof AuthenticateController
+     */
+    router(): core.Router {
+        if (this._router === undefined) {
+            this.configureRoutes()
+        }
+        return this._router!
     }
 
+    private configureRoutes() {
+        this._router = Router()
+        this._router.post('/authenticate', this.authenticate.bind(this))
+    }
+
+    /**
+     * Authorize the user who posted the request.
+     *
+     * @param {Request} req the request
+     * @param {Response} res the response
+     * @param {NextFunction} next function to be called next
+     * @memberof AuthenticateController
+     */
     public authenticate(req: Request, res: Response, next: NextFunction) {
         res.send('Hello, World!')
     }

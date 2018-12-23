@@ -25,7 +25,7 @@ export class ApiV1Router {
     }
 
     private routes() {
-        this.router.use('/v1', [authenticateController.router])
+        this.router.use('/v1', [authenticateController.router()])
     }
 }
 
