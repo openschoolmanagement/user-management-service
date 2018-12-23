@@ -17,6 +17,13 @@
 import { Router } from 'express'
 import { authenticateController } from './controllers'
 
+/**
+ * This class exposes the router for the version 1 API of the
+ * user-management-service.
+ *
+ * @export
+ * @class ApiV1Router
+ */
 export class ApiV1Router {
     public router = Router()
 
