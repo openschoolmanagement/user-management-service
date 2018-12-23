@@ -14,14 +14,5 @@
    limitations under the License.
 */
 
-import {
-    expect
-} from 'chai';
-
-describe('Positive test', function () {
-
-    it('True is true', function () {
-        expect(true).equals(true)
-    })
-
-})
+export * from './UserManagementService'
+export * from './implementation/UserManagementServiceImpl'

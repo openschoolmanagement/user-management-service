@@ -14,14 +14,11 @@
    limitations under the License.
 */
 
-import {
-    expect
-} from 'chai';
+import * as di from '../../di'
+import { UserManagementService, UserManagementServiceIF } from '../UserManagementService'
 
-describe('Positive test', function () {
+export class UserManagementServiceImpl implements UserManagementService {
 
-    it('True is true', function () {
-        expect(true).equals(true)
-    })
+}
 
-})
+di.register(UserManagementServiceIF, () => new UserManagementServiceImpl())

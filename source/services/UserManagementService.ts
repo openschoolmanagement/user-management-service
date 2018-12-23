@@ -14,14 +14,17 @@
    limitations under the License.
 */
 
-import {
-    expect
-} from 'chai';
+/**
+ * Symbol to be used for dependency injection
+ */
+export const UserManagementServiceIF = Symbol.for("UserManagementService")
 
-describe('Positive test', function () {
-
-    it('True is true', function () {
-        expect(true).equals(true)
-    })
-
-})
+/**
+ * Interface for user management services
+ *
+ * @export
+ * @interface UserManagementService
+ */
+export interface UserManagementService {
+    
+}
