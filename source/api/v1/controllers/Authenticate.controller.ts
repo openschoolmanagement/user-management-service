@@ -49,15 +49,7 @@ export class AuthenticateController implements ApiController {
         this._router.post('/authenticate', this.authenticate.bind(this))
     }
 
-    /**
-     * Authorize the user who posted the request.
-     *
-     * @param {Request} req the request
-     * @param {Response} res the response
-     * @param {NextFunction} next function to be called next
-     * @memberof AuthenticateController
-     */
-    public authenticate(req: Request, res: Response, next: NextFunction) {
+    private authenticate(req: Request, res: Response, next: NextFunction) {
         res.send('Hello, World!')
     }
 }

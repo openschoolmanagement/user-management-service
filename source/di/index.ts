@@ -53,7 +53,12 @@ export class Container {
         var resolved = this._resolved.get(symb)
 
         if (resolved === undefined) {
-            resolved = this._registry.get(symb)()
+            let resolver = this._registry.get(symb)
+
+            if (resolver === undefined) {
+                throw new Error(`The symbol >${String(symb)}< is not registered. No resolver available.`)
+            }
+            resolved = resolver()
             this._resolved.set(symb, resolved)
         }
 
@@ -67,7 +72,7 @@ export class Container {
 export const container = new Container()
 
 /**
- * Register a class and resolver for retrieving an instance.
+ * Register a class and resolver for retrieving an instance with the default container.
  *
  * @export
  * @template T type of the resulting class
@@ -81,6 +86,7 @@ export function register<T>(symb: Class | symbol, resolver: () => T) {
 /**
  * Returns an instance for a regsitered class. Every call to this
  * method with the same class always returns the same instance.
+ * The default container is used.
  *
  * @export
  * @template T type of the resulting class

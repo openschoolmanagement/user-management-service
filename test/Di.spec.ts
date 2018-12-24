@@ -40,11 +40,17 @@ class InterfaceB {
 di.register(InterfaceA, () => new ImplementationA())
 
 describe('Dependency Injection', function () {
-
     it('Interface is resolved to an implementation instance', function () {
         let implA: InterfaceA = di.inject(InterfaceA)
 
         expect(implA.getValueA()).equals("valueA")
+    })
+
+    it('The same implementation instance is always returned', function () {
+        let implA1: InterfaceA = di.inject(InterfaceA)
+        let implA2: InterfaceA = di.inject(InterfaceA)
+
+        expect(implA1 === implA2).equals(true)
     })
 
     it('Exception is thrown for unregistered interface', function () {
@@ -58,5 +64,4 @@ describe('Dependency Injection', function () {
 
         expect(failed).eq(true)
     })
-
 })

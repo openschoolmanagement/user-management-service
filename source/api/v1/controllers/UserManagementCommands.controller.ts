@@ -18,7 +18,8 @@ import { Router, Request, Response, NextFunction } from 'express'
 import * as core from "express-serve-static-core";
 import { inject } from '../../../di'
 import ApiController from '../../common/ApiController'
-import * as services from '../../../services'
+import * as services from '../../../services/events'
+import { CreateUser } from '../../../commands'
 
 export class UserManagementCommandsController implements ApiController {
     private _router?: Router = undefined
@@ -40,7 +41,13 @@ export class UserManagementCommandsController implements ApiController {
 
     private configureRoutes() {
         this._router = Router()
-        //this._router.post('/authenticate', this.authenticate.bind(this))
+        this._router.post('/createuser', this.createUser.bind(this))
+    }
+
+    private createUser(req: Request, res: Response, next: NextFunction) {
+        let createUserCommand: CreateUser = JSON.parse(req.body)
+        
+        this._userManagementService.createUser(createUserCommand)
     }
 }
 

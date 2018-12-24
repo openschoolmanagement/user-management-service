@@ -14,11 +14,19 @@
    limitations under the License.
 */
 
-import * as di from '../../di'
-import { UserManagementService, UserManagementServiceIF } from '../UserManagementService'
+import { CreateUser } from '../../commands'
 
-export class UserManagementServiceImpl implements UserManagementService {
+/**
+ * Symbol to be used for dependency injection
+ */
+export const UserManagementServiceIF = Symbol.for("UserManagementService")
 
+/**
+ * Interface for user management services
+ *
+ * @export
+ * @interface UserManagementService
+ */
+export interface UserManagementService {
+    createUser(command: CreateUser): void
 }
-
-di.register(UserManagementServiceIF, () => new UserManagementServiceImpl())

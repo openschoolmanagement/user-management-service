@@ -590,9 +590,6 @@ components:
           type: string
           format: email
           example: johndoe@mail.com
-        password:
-          type: string
-          example: password
 
     ChangeGivenName:
       type: object

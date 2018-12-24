@@ -14,17 +14,14 @@
    limitations under the License.
 */
 
-/**
- * Symbol to be used for dependency injection
- */
-export const UserManagementServiceIF = Symbol.for("UserManagementService")
+import * as di from '../../../di'
+import { UserManagementService, UserManagementServiceIF } from '../UserManagementService'
+import { CreateUser } from '../../../commands'
 
-/**
- * Interface for user management services
- *
- * @export
- * @interface UserManagementService
- */
-export interface UserManagementService {
-    
+export class UserManagementServiceImpl implements UserManagementService {
+    public createUser(command: CreateUser): void {
+
+    }
 }
+
+di.register(UserManagementServiceIF, () => new UserManagementServiceImpl())
