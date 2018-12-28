@@ -14,25 +14,11 @@
    limitations under the License.
 */
 
-import { CreateUser } from '../../commands'
+import pino from 'pino'
 
-/**
- * Symbol to be used for dependency injection
- */
-export const UserManagementServiceIF = Symbol.for("UserManagementService")
+const L = pino({
+    name: 'user-management-service',
+    level: 'debug'
+  }, pino.destination(2))
 
-/**
- * Interface for user management services
- *
- * @export
- * @interface UserManagementService
- */
-export interface UserManagementService {
-    /**
-     * Create a user.
-     *
-     * @param {CreateUser} command
-     * @memberof UserManagementService
-     */
-    createUser(command: CreateUser): void
-}
+export default L

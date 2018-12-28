@@ -21,6 +21,14 @@ import ApiController from '../../common/ApiController'
 import * as services from '../../../services/events'
 import { CreateUser } from '../../../commands'
 
+/**
+ * API Controller that receives user management related commands und forwards them to the
+ * user management service.
+ *
+ * @export
+ * @class UserManagementCommandsController
+ * @implements {ApiController}
+ */
 export class UserManagementCommandsController implements ApiController {
     private _router?: Router = undefined
     private _userManagementService: services.UserManagementService = 

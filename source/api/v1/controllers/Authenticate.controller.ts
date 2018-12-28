@@ -14,9 +14,11 @@
    limitations under the License.
 */
 
+import * as pino from 'pino'
 import { Router, Request, Response, NextFunction } from 'express'
-import * as core from "express-serve-static-core";
+import * as core from 'express-serve-static-core';
 import ApiController from '../../common/ApiController'
+import L from '../../../Logger'
 
 /**
  * This controller handles the authentication requests.

@@ -18,7 +18,20 @@ import * as di from '../../../di'
 import { UserManagementService, UserManagementServiceIF } from '../UserManagementService'
 import { CreateUser } from '../../../commands'
 
+/**
+ * Implementation of the user management service
+ *
+ * @export
+ * @class UserManagementServiceImpl
+ * @implements {UserManagementService}
+ */
 export class UserManagementServiceImpl implements UserManagementService {
+    /**
+     * Create a UserCreated event, store the event.
+     *
+     * @param {CreateUser} command
+     * @memberof UserManagementServiceImpl
+     */
     public createUser(command: CreateUser): void {
 
     }

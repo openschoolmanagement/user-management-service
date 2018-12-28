@@ -14,9 +14,12 @@
    limitations under the License.
 */
 
+const expressPinoLogger = require('express-pino-logger')
+
 import * as http from 'http'
 import express from 'express'
 import { APIV1 } from './api/v1'
+import L from './Logger'
 
 /**
  * Start the server on the given port with the given routes
@@ -28,9 +31,10 @@ import { APIV1 } from './api/v1'
 export function startServer(port: number): http.Server {
     let app: express.Application = express()
     
+    app.use(expressPinoLogger({ logger: L }))
     app.use('/', APIV1.router)
 
     return app.listen(port, () => {
-        console.log(`user-management-service is listening on port ${port}`)
+        L.info(`user-management-service is listening on port ${port}`)
     })
 }
