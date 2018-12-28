@@ -17,7 +17,7 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import * as core from "express-serve-static-core";
 import { inject } from '../../../di'
-import ApiController from '../../common/ApiController'
+import AuthApiController from '../../common/AuthApiController'
 import * as services from '../../../services/events'
 import { CreateUser } from '../../../commands'
 
@@ -29,7 +29,7 @@ import { CreateUser } from '../../../commands'
  * @class UserManagementCommandsController
  * @implements {ApiController}
  */
-export class UserManagementCommandsController implements ApiController {
+export class UserManagementCommandsController extends AuthApiController {
     private _router?: Router = undefined
     private _userManagementService: services.UserManagementService = 
         inject(services.UserManagementServiceIF)
@@ -49,7 +49,9 @@ export class UserManagementCommandsController implements ApiController {
 
     private configureRoutes() {
         this._router = Router()
-        this._router.post('/createuser', this.createUser.bind(this))
+        this._router.post('/createuser', 
+            this.authenticated.bind(this),
+            this.createUser.bind(this))
     }
 
     private createUser(req: Request, res: Response, next: NextFunction) {
